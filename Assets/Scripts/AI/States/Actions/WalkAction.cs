@@ -6,6 +6,7 @@ using UnityEngine;
 public class WalkAction : Action
 {
 
+
     public override void Trigger(AIController controller)
     {
 
@@ -27,5 +28,8 @@ public class WalkAction : Action
             controller.agent.isStopped = false;
 
         }
+
+
+
     }
 }

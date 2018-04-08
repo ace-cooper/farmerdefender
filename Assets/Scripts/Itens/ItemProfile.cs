@@ -59,4 +59,20 @@ public class ItemProfile : ScriptableObject {
     //public FX 
 
 
+    public virtual int getPower()
+    {
+        return 0;
+    }
+
+    public virtual int[] getTargets()
+    {
+        return null;
+    }
+
+    public virtual bool isTarget(int layer)
+    {
+        return false;
+    }
+
+
 }

@@ -26,7 +26,7 @@ public class SearchDecision : Decision {
                 for (int i = 0; i < hitColliders.Length; i++)
                 {
 
-                    if ((controller.core as AIAttacker).isTarget(hitColliders[i].tag))
+                    if ((controller.core as AIAttacker).isTarget(hitColliders[i].gameObject.layer))
                     {
                         Creature.Health target = hitColliders[i].GetComponent<Creature.Health>();
                         if (target && !target.isDead)

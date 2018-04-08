@@ -19,9 +19,14 @@ public class AttackAction : Action
         Creature.Health target = controller.Remember<Creature.Health>("target");
         if (target != null && !target.isDead && temp <= Time.time)
         {
-            controller.Attack();
+            /*RaycastHit hit;
+            if (Physics.Raycast(controller.transform.position, controller.aheadPoint.position, out hit, controller.profile.lookSphereCastRadius)
+                && hit.transform.Equals(target.transform))
+            {*/
+                controller.Attack();
 
-            controller.Remember<float>("attackTime", Time.time + controller.fireRate);
+                controller.Remember<float>("attackTime", Time.time + controller.fireRate);
+            //}
         }
     }
 }

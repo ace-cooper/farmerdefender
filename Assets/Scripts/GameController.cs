@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using UnityEngine.Advertisements;
+
 public class GameController : MonoBehaviour
 {
     /***************************************
@@ -54,7 +56,10 @@ public class GameController : MonoBehaviour
 
     public Transform[] respawnPoints;
 
-    public RespawnSettings respawnSettings;
+    public Transform itemRespawnPoint;
+
+
+    //public RespawnSettings respawnSettings;
 
     /*=========================
      *        Internas
@@ -90,7 +95,9 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
-        
+        Advertisement.Initialize("1760565");
+
+
         GameState.Initialize(settings);
         
 
@@ -319,12 +326,10 @@ public class GameController : MonoBehaviour
 
     private void roundGifts()
     {
-        int day = GameState.Instance.day;
-        int rounds = GameState.Instance.settings.rounds.Length;
-        if (day >= rounds) day = rounds - 1;
+
 
         // Somando prêmio de sobrevivência do round
-        GameState.Instance.money += GameState.Instance.settings.rounds[day].survivorMoneyReward;
+        GameState.Instance.money += GameState.Instance.settings.rounds[GameState.Instance.roundDay].survivorMoneyReward;
 
         // Buscando e somando prêmios para cada animal vivo
         int total = animals.Length;
@@ -336,6 +341,30 @@ public class GameController : MonoBehaviour
         GameState.Instance.money += money;
     }
 
+    public void buyItem(ItemProfile item)
+    {
+        if (GameState.Instance.money >= item.cost)
+        {
+            GameState.Instance.money -= (int)item.cost;
+            Vector3 offset = new Vector3(UnityEngine.Random.Range(-5f,5f),0, UnityEngine.Random.Range(-5f, 5f));
+            Instantiate(item.prefab, itemRespawnPoint.transform.position+offset, itemRespawnPoint.transform.rotation, transform);
+
+        } else
+        {
+            // exibir janela de erro
+        }
+    }
+    public void buyItem(ItemProfile item, int player)
+    {
+       if (GameState.Instance.money >= item.cost && selectedChar._inventory.AddItem(item))
+        {
+            GameState.Instance.money -= (int) item.cost;
+        } else
+        {
+            // exibir janela de erro
+        }
+    }
+
     /*************************************************************
      * 
      *                Controle de balas e zumbis
@@ -345,12 +374,10 @@ public class GameController : MonoBehaviour
     {
         if (respawnTimer < Time.time)
         {
-            respawnTimer = Time.time + UnityEngine.Random.Range(respawnSettings.minInterval, respawnSettings.maxInterval);
-            //Debug.Log(respawnTimer);
-            int day = GameState.Instance.day;
-            int rounds = GameState.Instance.settings.rounds.Length;
-            if (day >= rounds) day = rounds - 1;
-            AIZombieProfile profile = GameState.Instance.settings.rounds[day].getZombie().profile;
+            respawnTimer = Time.time + UnityEngine.Random.Range(settings.rounds[GameState.Instance.roundDay].respawn.minInterval, settings.rounds[GameState.Instance.roundDay].respawn.maxInterval);
+            
+
+            AIZombieProfile profile = GameState.Instance.settings.rounds[GameState.Instance.roundDay].getZombie().profile;
 
             Transform respawn = respawnPoints[UnityEngine.Random.Range(0, respawnPoints.Length - 1)];
 
@@ -367,7 +394,6 @@ public class GameController : MonoBehaviour
                 if (!pooledAI.TryGetValue(settings.rounds[i].zombies[j].profile.prefab.name, out result))
                 {
                     pooledAI[settings.rounds[i].zombies[j].profile.prefab.name] = new List<RespawnEntity>();
-                    Debug.Log("Adicionando "+ settings.rounds[i].zombies[j].profile.prefab.name);
                 }
             }
             
@@ -409,7 +435,7 @@ public class GameController : MonoBehaviour
         }
 
 
-        RespawnEntity newobj = Instantiate(obj.transform, position, rotation).GetComponent<RespawnEntity>();
+        RespawnEntity newobj = Instantiate(obj.transform, position, rotation, transform).GetComponent<RespawnEntity>();
         pooledBullets.Add(newobj);
         
 
@@ -429,7 +455,7 @@ public class GameController : MonoBehaviour
 
         if (newobj==null)
         {
-            newobj = Instantiate(obj.transform, position, rotation).GetComponent<RespawnEntity>();
+            newobj = Instantiate(obj.transform, position, rotation, transform).GetComponent<RespawnEntity>();
             pooledAI[label].Add(newobj);
         }
 
@@ -439,5 +465,28 @@ public class GameController : MonoBehaviour
         newobj.gameObject.SetActive(true);
 
         return newobj; 
-    }  
+    }
+
+
+    /*************************************************
+     * 
+     *              Monetization
+     *
+     *************************************************/
+    public void ShowRewardedVideo()
+    {
+        ShowOptions options = new ShowOptions();
+        options.resultCallback = (ShowResult result) =>
+        {
+            if (result == ShowResult.Finished)
+            {
+                Debug.Log("Video completed - Offer a reward to the player");
+                // Reward your player here.
+                GameState.Instance.money += 100;
+
+            }
+        };
+
+        Advertisement.Show("rewardedVideo", options);
+    }
 }

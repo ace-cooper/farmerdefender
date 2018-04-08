@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class AIAttacker : AIBase
 {
-
-    public String[] targetsTags;
-    protected Dictionary<string, bool> targets;
+    [Header("Numero da camada alvo desta entidade")]
+    public int[] targetsTags;
+    protected Dictionary<int, bool> targets;
 
     public override void AIUpdate(AIController controller)
     {
@@ -20,7 +20,7 @@ public class AIAttacker : AIBase
 
     public override void Initialize(AIController controller)
     {
-        targets = new Dictionary<string, bool>();
+        targets = new Dictionary<int, bool>();
         for (int i = 0; i < targetsTags.Length; i++)
         {
 
@@ -30,7 +30,7 @@ public class AIAttacker : AIBase
         base.Initialize(controller);
     }
 
-    public bool isTarget(string tag)
+    public bool isTarget(int tag)
     {
         bool result;
         return targets.TryGetValue(tag, out result);

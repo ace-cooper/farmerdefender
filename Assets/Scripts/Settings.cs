@@ -78,6 +78,8 @@ public class Settings : ScriptableObject
                 set { _respawnTime = value + (int)rate; }
             }*/
         }
+       
+        public RespawnSettings respawn;
 
         public zombieRound[] zombies;
 

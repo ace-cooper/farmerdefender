@@ -11,4 +11,23 @@ public class RewardSlot : UIItemSlot {
         valueDisplay.text = profile.cost.ToString();
     }
 
+    public override void Use()
+    {
+        if (profile.Type.Equals(ItemProfile.types.drop))
+        {
+            GameController.Instance.buyItem(profile);
+        } else
+        {
+            Select(0);
+        }
+    }
+
+    // escolhendo o char
+    public void Select(int player)
+    {
+
+            GameController.Instance.buyItem(profile, player);
+        
+    } 
+
 }

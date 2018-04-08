@@ -25,7 +25,7 @@ namespace Creature {
         }
 
         private AIController _controller;
-        private AIController controller {
+        public AIController controller {
             get
             {
                 if (_controller == null) _controller = GetComponent<AIController>();
@@ -137,6 +137,8 @@ namespace Creature {
         {
             hp -= (hp - d < 0) ? hp : d;
             damageAnimationState = damageState.forward;
+
+            //if (controller.crossair != null) controller.crossair.setColor(Color.Lerp(controller.profile.lowHPColor, controller.profile.fullHPColor, hp / controller.profile.hp));
 
         }
 

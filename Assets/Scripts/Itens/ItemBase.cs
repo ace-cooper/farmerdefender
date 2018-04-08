@@ -30,6 +30,7 @@ public abstract class ItemBase : MonoBehaviour
 
     public virtual void Use()
     {
+        
         _coolDownTime = Time.time + profile.coolDownTime;
         
 
@@ -43,6 +44,18 @@ public abstract class ItemBase : MonoBehaviour
     }
 
     public void Sell() {
+
+    }
+
+    public void LookAtTarget(Transform target)
+    {
+
+
+        Vector3 newpos = target.position - transform.position;
+        newpos.y = transform.position.y;
+
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(newpos), 1);// Time.deltaTime * profile.turnSpeed);
 
     }
 

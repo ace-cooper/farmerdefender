@@ -18,8 +18,9 @@ public class AimAction : Action
     {
         Vector3 temp = controller.Remember<Vector3>("lastTargetPos");
         Creature.Health target = controller.Remember<Creature.Health>("target");
-     
-        if (target)
+        bool priority = controller.Remember<bool>("priorityTarget");
+
+        if (!priority && target)
         {
 
             float distance = Mathf.Abs(Vector3.Distance(controller.transform.position, target.transform.position));

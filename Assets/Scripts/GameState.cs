@@ -143,8 +143,18 @@ public class GameState : ScriptableObject
     // Chars utilizados pelo jogador
     private Dictionary<int, AIController> chars = new Dictionary<int, AIController>();
 
+    public int roundDay
+    {
+        get
+        {
+            int day = GameState.Instance.day;
+            int rounds = GameState.Instance.settings.rounds.Length;
+            if (day >= rounds) day = rounds - 1;
 
-  
+            return day;
+        }
+    }
+
     /**
      * <summary>Adiciona um novo char para ser utilizado pelo jogador</summary>
      */
@@ -203,10 +213,8 @@ public class GameState : ScriptableObject
         this._settings = _settings;
     }
 
-    public void getAnimalGift()
-    {
-        
-    }
+
+
 
 #if UNITY_EDITOR
     [UnityEditor.MenuItem("Window/Game State")]

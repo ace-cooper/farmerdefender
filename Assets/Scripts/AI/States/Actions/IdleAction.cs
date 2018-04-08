@@ -24,7 +24,7 @@ public class IdleAction : Action
         float time = controller.Remember<float>("idleTime");
         bool priority = controller.Remember<bool>("priorityTarget");
         
-        if (temp == Vector3.zero || (precise && controller.agent.remainingDistance <= targetOffset) || (Time.time >= time))
+        if (!priority && (temp == Vector3.zero || (precise && controller.agent.remainingDistance <= targetOffset) || (!precise && Time.time >= time)))
         {
             
             Vector3 random = randomLocation(controller);

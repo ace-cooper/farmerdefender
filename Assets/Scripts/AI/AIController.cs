@@ -20,11 +20,14 @@ public class AIController : RespawnEntity
 
 
     public Transform aheadPoint;
+    public Transform itemPoint;
 
     [HideInInspector]
     public NavMeshAgent agent;
 
     private Dictionary<string, object> memory;
+
+    public Crosshair crossair;
 
 
 
@@ -129,8 +132,9 @@ public class AIController : RespawnEntity
     public void TransitionToState(State nextState)
     {
 
-        if (nextState != currentState)
+        if (nextState != null && nextState != currentState)
         {
+            remainState = currentState;
             currentState = nextState;
             //OnExitState();
         }
@@ -140,6 +144,7 @@ public class AIController : RespawnEntity
     {
         if (_inventory.currentItem)
         {
+            _inventory.currentItem.LookAtTarget(Remember<Health>("target").transform);
             _inventory.currentItem.Use();
         } else
         {
@@ -150,6 +155,11 @@ public class AIController : RespawnEntity
                 target.Damage(profile.attackDamage);
             }
         }
+    }
+
+    public void Attack(AIBase target)
+    {
+
     }
 
     public void LookAt(Vector3 lastTargetPos)
@@ -179,7 +189,7 @@ public class AIController : RespawnEntity
 
     public override void Destroy()
     {
-        Debug.Log(gameObject.name + " Destroy!");
+        
         base.Destroy();
     }
 

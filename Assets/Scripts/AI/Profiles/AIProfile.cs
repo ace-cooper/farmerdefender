@@ -15,6 +15,8 @@ public class AIProfile : ScriptableObject
     public bool canTurn = true;
 
     public int hp = 10;
+    public Color fullHPColor = Color.green;
+    public Color lowHPColor = Color.red;
     public float moveSpeed = 1;
     public float turnSpeed = 1;
     public float lookRange = 40f;
@@ -41,5 +43,9 @@ public class AIProfile : ScriptableObject
     public Sprite profileImage;
 
     public AIController prefab;
+
+    public State initialState;
+    public State mainState;
+    public State attackState;
 
 }

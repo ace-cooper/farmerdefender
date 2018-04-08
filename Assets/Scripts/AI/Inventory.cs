@@ -17,13 +17,17 @@ namespace Creature
         public Animator _animator;
 
 
-        public bool AddItem(ItemBase item)
+        public bool AddItem(ItemProfile item)
         {
             for (int i = 0;i<slots.Length;i++)
             {
+
                 if (slots[i] == null)
                 {
-                    slots[i] = item;
+
+                    Transform temp = GameObject.Instantiate(item.prefab, controller.itemPoint.position, controller.itemPoint.rotation, controller.itemPoint);
+                    temp.gameObject.SetActive(false);
+                    slots[i] = temp.GetComponent<ItemBase>();
                     return true;
                 }
             }
@@ -40,7 +44,11 @@ namespace Creature
             switch (slots[index].profile.Type)
             {
                 case ItemProfile.types.equip:
+                    currentItem.gameObject.SetActive(false);
+                    slots[index].gameObject.SetActive(true);
                     currentItem = slots[index];
+
+
                     break;
                 case ItemProfile.types.drop:
                 case ItemProfile.types.use:

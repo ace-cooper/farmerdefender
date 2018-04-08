@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="Respawn Settings")]
-public class RespawnSettings : ScriptableObject {
+//[CreateAssetMenu(menuName ="Respawn Settings")]
+[System.Serializable]
+public class RespawnSettings {
     
     public float minInterval = 5f;
     public float maxInterval = 10f;
 
-    public float minDay = 1;
+    //public float minDay = 1;
     
 }

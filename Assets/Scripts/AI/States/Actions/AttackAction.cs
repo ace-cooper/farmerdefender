@@ -23,7 +23,7 @@ public class AttackAction : Action
             if (Physics.Raycast(controller.transform.position, controller.aheadPoint.position, out hit, controller.profile.lookSphereCastRadius)
                 && hit.transform.Equals(target.transform))
             {*/
-                controller.Attack();
+                controller.core.Attack(controller);
 
                 controller.Remember<float>("attackTime", Time.time + controller.fireRate);
             //}

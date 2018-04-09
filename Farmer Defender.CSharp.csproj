@@ -93,8 +93,7 @@
     <Compile Include="Assets\Scripts\AI\Creatures\AIAttacker.cs" />
     <Compile Include="Assets\Scripts\AI\Creatures\AIHuman.cs" />
     <Compile Include="Assets\Scripts\AI\Enemies\AIZombie.cs" />
-    <Compile Include="Assets\Scripts\AI\Health.cs" />
-    <Compile Include="Assets\Scripts\AI\Inventory.cs" />
+    <Compile Include="Assets\Scripts\AI\Itens\AIItem.cs" />
     <Compile Include="Assets\Scripts\AI\Profiles\AIAnimalProfile.cs" />
     <Compile Include="Assets\Scripts\AI\Profiles\AIHumanProfile.cs" />
     <Compile Include="Assets\Scripts\AI\Profiles\AIProfile.cs" />
@@ -113,6 +112,9 @@
     <Compile Include="Assets\Scripts\AI\States\State.cs" />
     <Compile Include="Assets\Scripts\AI\States\Transition.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Character\Character.cs" />
+    <Compile Include="Assets\Scripts\Character\Health.cs" />
+    <Compile Include="Assets\Scripts\Character\Inventory.cs" />
     <Compile Include="Assets\Scripts\Game Events\EventController.cs" />
     <Compile Include="Assets\Scripts\Game Events\EventProfile.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />

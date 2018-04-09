@@ -12,7 +12,7 @@ namespace Creature
 
         public ItemBase currentItem;
 
-        public AIController controller;
+        public Character controller;
 
         public Animator _animator;
 

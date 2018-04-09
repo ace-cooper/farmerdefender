@@ -356,7 +356,7 @@ public class GameController : MonoBehaviour
     }
     public void buyItem(ItemProfile item, int player)
     {
-       if (GameState.Instance.money >= item.cost && selectedChar._inventory.AddItem(item))
+       if (GameState.Instance.money >= item.cost && selectedChar.character.inventory.AddItem(item))
         {
             GameState.Instance.money -= (int) item.cost;
         } else
@@ -480,8 +480,7 @@ public class GameController : MonoBehaviour
         {
             if (result == ShowResult.Finished)
             {
-                Debug.Log("Video completed - Offer a reward to the player");
-                // Reward your player here.
+
                 GameState.Instance.money += 100;
 
             }

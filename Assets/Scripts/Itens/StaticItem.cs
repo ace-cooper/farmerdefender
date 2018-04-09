@@ -5,6 +5,9 @@ using Creature;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
+// Organizar esta classe, separando suas funções pelo AIStaticItem e em novas actions.
+// Deixando somente as informações inerentes à entidade em questão.
 public class StaticItem : ItemBase
 {
 
@@ -12,8 +15,6 @@ public class StaticItem : ItemBase
     public GameObject enableMoveDisplay;
     public GameObject disableMoveDisplay;
 
-    public ItemState currentState;
-    public ItemState remainState;
 
     private bool _activated = false;
     private bool activated
@@ -126,14 +127,4 @@ public class StaticItem : ItemBase
     }
 
 
-    public void TransitionToState(ItemState nextState)
-    {
-
-        if (nextState != null && nextState != currentState)
-        {
-            remainState = currentState;
-            currentState = nextState;
-            //OnExitState();
-        }
-    }
 }

@@ -37,7 +37,7 @@ public class AimAction : Action
             }
 
            
-            controller.LookAt(target.transform.position);
+            controller.core.LookAt(controller,target.transform.position);
 
         }
     }

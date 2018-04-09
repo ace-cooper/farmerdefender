@@ -30,7 +30,7 @@ public class InventoryWindow : UIWindow {
     void OnEnable()
     {
         
-        Load(GameController.Instance.selectedChar._inventory);
+        Load(GameController.Instance.selectedChar.character.inventory);
 
         animator.SetBool("isOpen", true);
     }

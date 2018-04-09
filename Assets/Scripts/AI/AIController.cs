@@ -15,12 +15,8 @@ public class AIController : RespawnEntity
 
     public Rigidbody body;
 
-    [SerializeField]
-    public Inventory _inventory;
-
 
     public Transform aheadPoint;
-    public Transform itemPoint;
 
     [HideInInspector]
     public NavMeshAgent agent;
@@ -29,18 +25,21 @@ public class AIController : RespawnEntity
 
     public Crosshair crossair;
 
+    private Health _health;
+
+    private Character _character;
 
 
     public float fireRate
     {
         get
         {
-            return (_inventory.currentItem) ? _inventory.currentItem.profile.fireRate : profile.attackRate;
+            return core.getFireRate(this);
         }
     }
 
 
-    private Health _health;
+    
     public Health health
     {
         get
@@ -49,6 +48,18 @@ public class AIController : RespawnEntity
             return _health;
         }
     }
+
+
+    public Character character
+    {
+        get
+        {
+            if (_character == null) _character = GetComponent<Character>();
+            return _character;
+        }
+    }
+
+
 
     public T Remember<T>(string key)
     {
@@ -79,7 +90,7 @@ public class AIController : RespawnEntity
         core.AIUpdate(this);
         currentState.StateUpdate(this);
 
-        //_inventory._animator.SetBool("isWalking", !agent.velocity.Equals(Vector3.zero));
+        //character.inventory._animator.SetBool("isWalking", !agent.velocity.Equals(Vector3.zero));
 
     }
 
@@ -96,6 +107,8 @@ public class AIController : RespawnEntity
         memory = new Dictionary<string, object>();
         core.Initialize(this);
         Initialize(transform.position);
+
+        core.onEnable(this);
     }
 
     public void Initialize(Vector3 spawnPosition, AIBase ai = null)
@@ -115,7 +128,7 @@ public class AIController : RespawnEntity
         currentState = initState;
         agent.speed = profile.moveSpeed;
 
-        if (_inventory.currentItem) _inventory.currentItem.Initialize(_inventory);
+        
 
         enabled = true;
 
@@ -140,52 +153,34 @@ public class AIController : RespawnEntity
         }
     }
 
-    public void Attack()
+    void OnDisable()
     {
-        if (_inventory.currentItem)
-        {
-            _inventory.currentItem.LookAtTarget(Remember<Health>("target").transform);
-            _inventory.currentItem.Use();
-        } else
-        {
-            Health target = Remember<Health>("target");
-
-            if (target != null && Vector3.Distance(transform.position, target.transform.position) <= profile.attackRange)
-            {
-                target.Damage(profile.attackDamage);
-            }
-        }
+        core.onDisable(this);
     }
 
-    public void Attack(AIBase target)
+    void OnTriggerEnter(Collider collider)
     {
-
-    }
-
-    public void LookAt(Vector3 lastTargetPos)
-    {
-    
-
-        if (profile.canTurn && !lastTargetPos.Equals(Vector3.zero))
-        {
-            
-
-            Vector3 newpos = lastTargetPos - transform.position;
-            newpos.y = 0;
-
-            body.transform.rotation = Quaternion.Slerp(body.transform.rotation, Quaternion.LookRotation(newpos), 1);// Time.deltaTime * profile.turnSpeed);
-            
-
-        }
+        core.onTriggerEnter(this, collider);
     }
 
     void OnMouseDown()
     {
         
 
-        core.Select(this);
+        core.OnMouseDown(this);
     }
 
+    void OnMouseUp()
+    {
+
+
+        core.OnMouseUp(this);
+    }
+
+    void OnMouseDrag()
+    {
+        core.OnMouseDrag(this);
+    }
 
     public override void Destroy()
     {

@@ -28,4 +28,27 @@ public class AIHuman : AIAttacker {
     {
         GameController.Instance.GameOver();
     }
+
+    public override void Attack(AIController controller)
+    {
+        if (controller.character.inventory.currentItem)
+        {
+            controller.character.inventory.currentItem.LookAtTarget(controller.Remember<Creature.Health>("target").transform);
+            controller.character.inventory.currentItem.Use();
+        }
+        else
+        {
+            Creature.Health target = controller.Remember<Creature.Health>("target");
+
+            if (target != null && Vector3.Distance(controller.transform.position, target.transform.position) <= controller.profile.attackRange)
+            {
+                target.Damage(controller.profile.attackDamage);
+            }
+        }
+    }
+
+    public override float getFireRate(AIController controller)
+    {
+        return (controller.character.inventory.currentItem) ? controller.character.inventory.currentItem.profile.fireRate : controller.profile.attackRate;
+    }
 }

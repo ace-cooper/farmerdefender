@@ -12,7 +12,7 @@ public class InventorySlot : UIItemSlot {
     {
        if (profile != null)
         {
-            GameController.Instance.selectedChar._inventory.UseItem(id);
+            GameController.Instance.selectedChar.character.inventory.UseItem(id);
             if (profile.isEquipable)
             {
                 selected.enabled = true;

@@ -37,4 +37,28 @@ public class AIZombie : AIAttacker {
 
         GameState.Instance.killedzombies++;
     }
+
+    public override void OnMouseDown(AIController controller)
+    {
+        base.OnMouseDown(controller);
+        Select(controller);
+    }
+
+
+    public override void Attack(AIController controller)
+    {
+
+            Creature.Health target = controller.Remember<Creature.Health>("target");
+
+            if (target != null && Vector3.Distance(controller.transform.position, target.transform.position) <= controller.profile.attackRange)
+            {
+                target.Damage(controller.profile.attackDamage);
+            }
+        
+    }
+
+    public override float getFireRate(AIController controller)
+    {
+        return controller.profile.attackRate;
+    }
 }

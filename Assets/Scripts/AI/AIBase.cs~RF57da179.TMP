@@ -55,7 +55,7 @@ public abstract class AIBase : ScriptableObject
 
     public virtual float getFireRate(AIController controller) { return 0; }
 
-    public virtual void onTriggerEnter(AIController controller, Collider collider) { }
+    public virtual void OnTriggerEnter(AIController controller, Collider collider) { }
 
     public virtual void onEnable(AIController controller) { }
 
